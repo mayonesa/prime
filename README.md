@@ -15,6 +15,11 @@ GET: /prime/8
 GET: /prime/8
 -> { isPrime: false, primes: [2,3,5,7] }
 
+
+To Test: 
+
+prime> sbt test
+
 To Run:
 
 1. prime> sbt run

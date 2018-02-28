@@ -1,6 +1,6 @@
 package models
 
-import scala.concurrent.{ ExecutionContext, Future }
+import concurrent.{ ExecutionContext, Future }
 import javax.inject.Inject
 import org.apache.commons.math3.primes.Primes
 import collection.mutable
