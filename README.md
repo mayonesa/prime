@@ -17,7 +17,8 @@ GET: /prime/8
 
 To Run:
 
-prime> sbt run
+1. prime> sbt run
+2. go to localhost:9000/primes/5 (5 is variable)
 
 notes:
  - errors not Jsonified (e.g., {"errors": ["'abc' is not an integer"]}) for sake of code readibilty/simplicity.
