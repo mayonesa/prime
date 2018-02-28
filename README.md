@@ -23,3 +23,4 @@ To Run:
 notes:
  - errors not Jsonified (e.g., {"errors": ["'abc' is not an integer"]}) for sake of code readibilty/simplicity.
  - a running jar can be provided if installing sbt is not desirable.
+ - memory-optimization enhancement: reuse prior primes that are equal.
