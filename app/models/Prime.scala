@@ -3,10 +3,10 @@ package models
 import scala.concurrent.{ ExecutionContext, Future }
 import javax.inject.Inject
 import org.apache.commons.math3.primes.Primes
-import common.PrimesMap
+import collection.mutable
 
 class Prime @Inject() (implicit ec: ExecutionContext) {
-  private val priorPrimesMap = PrimesMap.empty
+  private val priorPrimesMap = mutable.Map.empty[Int, Seq[Int]]
 	
   def isPrime(n: Int): Boolean = Primes.isPrime(n)
 		
