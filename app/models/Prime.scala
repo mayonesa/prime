@@ -1,12 +1,12 @@
 package models
 
-import collection.mutable
 import scala.concurrent.{ ExecutionContext, Future }
 import javax.inject.Inject
 import org.apache.commons.math3.primes.Primes
+import common.PrimesMap
 
 class Prime @Inject() (implicit ec: ExecutionContext) {
-	private val priorPrimesMap = mutable.Map.empty[Int, Seq[Int]]
+	private val priorPrimesMap = PrimesMap.empty
 	
 	def isPrime(n: Int): Future[Boolean] = Future(Primes.isPrime(n))
 		
