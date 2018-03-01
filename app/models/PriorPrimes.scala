@@ -12,19 +12,19 @@ private[models] class PriorPrimes {
 	
   private[models] def contains(n: Int) = ppiMap.contains(n)
 	
-  private[models] def += (n: Int) = {
+  private[models] def += (n: Int) = synchronized {
 
     @tailrec
-    def loop(aPppiMap: SortedMap[Int, Int], prevI: Option[Int]): Option[Int] =
-      if (aPppiMap.isEmpty) None
+    def loop(aPpiMap: SortedMap[Int, Int], prevI: Option[Int]): Option[Int] =
+      if (aPpiMap.isEmpty) None
       else {
-        val kv = aPppiMap.head
+        val kv = aPpiMap.head
         val currN = kv._1
-        if (currN > n) prevI
-        else loop(aPppiMap.tail, Some(kv._2))
+        if (currN > n) if (prevI.isEmpty) Some(0) else prevI
+        else loop(aPpiMap.tail, Some(kv._2))
       }
 		
-    if (n < 2) Seq.empty[Int] 
+    if (n < 3) Seq.empty[Int] 
     else loop(ppiMap, None) match {
       case Some(i) => 
         ppiMap = ppiMap + (n -> i)
@@ -43,5 +43,5 @@ private[models] class PriorPrimes {
 }
 
 private[models] object PriorPrimes {
-  private[models] def apply(): PriorPrimes = new PriorPrimes()
+  private[models] def apply(): PriorPrimes = new PriorPrimes
 }
