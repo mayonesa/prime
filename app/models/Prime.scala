@@ -5,7 +5,7 @@ import javax.inject.Inject
 import org.apache.commons.math3.primes.Primes
 
 class Prime @Inject() (implicit ec: ExecutionContext) {
-	private val lock = AnyRef
+  private val lock = AnyRef
   private val priorPrimes = PriorPrimes(lock)
 	
   def isPrime(n: Int): Boolean = Primes.isPrime(n)
