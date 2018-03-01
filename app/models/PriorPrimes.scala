@@ -12,6 +12,7 @@ private[models] class PriorPrimes {
 	
   private[models] def contains(n: Int) = ppiMap.contains(n)
 	
+	// TODO: use private lock
   private[models] def += (n: Int) = synchronized {
 
     @tailrec
@@ -20,7 +21,7 @@ private[models] class PriorPrimes {
       else {
         val kv = aPpiMap.head
         val currN = kv._1
-        if (currN > n) if (prevI.isEmpty) Some(0) else prevI
+        if (currN > n) if (prevI.isEmpty) Some(0) else prevI.map(_ + 1)
         else loop(aPpiMap.tail, Some(kv._2))
       }
 		

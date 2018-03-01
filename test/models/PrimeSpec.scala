@@ -49,9 +49,18 @@ class PrimeSpec extends PlaySpec {
     "for 4 be empty at first" in {
       p.getPriorPrimes(4) mustBe empty
     }
-    // "for 4 be [2, 3] after the first time" in {
-    //   p.getPriorPrimes(4) mustBe List(2, 3)
-    // }
+    "for 4 be [2, 3] after the first time" in {
+      p.getPriorPrimes(4) mustBe List(2, 3)
+    } 
+    "for 6 be empty at first" in {
+      p.getPriorPrimes(6) mustBe empty
+    }
+    "for 6 be [2, 3, 5] after the first time" in {
+      p.getPriorPrimes(6) mustBe List(2, 3, 5)
+    } 
+    "for 7 be empty at first" in {
+      p.getPriorPrimes(7) mustBe empty
+    }
     "for computationally-intensive be empty at first" in {
       p.getPriorPrimes(1000) mustBe empty
     }
