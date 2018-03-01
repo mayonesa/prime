@@ -26,6 +26,5 @@ To Run:
 2. go to localhost:9000/primes/5 (5 is variable)
 
 notes:
- - errors not Jsonified (e.g., {"errors": ["'abc' is not an integer"]}) for sake of code readibilty/simplicity.
  - a running jar can be provided if installing sbt is not desirable.
  - the cost of optimizing the memory by storing only new collections of prior primes is an increase of time complexity by O(n). In the interest of performance, this has been removed. However, it is implemented in commit 85e3253

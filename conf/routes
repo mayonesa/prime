@@ -3,4 +3,4 @@
 # ~~~~
 
 # Home page
-GET     /primes/:n     controllers.PrimesController.primes(n: Int)
+GET     /primes/:n     controllers.PrimesController.primes(n: String)
