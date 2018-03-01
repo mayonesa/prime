@@ -4,7 +4,7 @@ import org.apache.commons.math3.primes.Primes
 import annotation.tailrec
 import collection.SortedMap
 
-private[models] class PriorPrimes {
+private[models] class PriorPrimes(lock: AnyRef) {
   private var ppiMap = SortedMap.empty[Int, Int]
   private var pps = Seq.empty[Int]
 	
@@ -12,8 +12,7 @@ private[models] class PriorPrimes {
 	
   private[models] def contains(n: Int) = ppiMap.contains(n)
 	
-	// TODO: use private lock
-  private[models] def += (n: Int) = synchronized {
+  private[models] def += (n: Int) = lock.synchronized {
 
     @tailrec
     def loop(aPpiMap: SortedMap[Int, Int], prevI: Option[Int]): Option[Int] =
@@ -48,5 +47,5 @@ private[models] class PriorPrimes {
 }
 
 private[models] object PriorPrimes {
-  private[models] def apply(): PriorPrimes = new PriorPrimes
+  private[models] def apply(lock: AnyRef): PriorPrimes = new PriorPrimes(lock)
 }
