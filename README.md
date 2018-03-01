@@ -23,8 +23,4 @@ prime> sbt test
 To Run:
 
 1. prime> sbt run
-2. go to localhost:9000/primes/5 (5 is variable)
-
-notes:
- - a running jar can be provided if installing sbt is not desirable.
- - the cost of optimizing the memory by storing only new collections of prior primes is an increase of time complexity by O(n). In the interest of performance, this has been removed. However, it is implemented in commit 85e3253
+2. service URL: localhost:9000/primes/5 (5 is variable)
