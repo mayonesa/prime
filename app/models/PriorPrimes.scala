@@ -21,7 +21,11 @@ private[models] class PriorPrimes {
       else {
         val kv = aPpiMap.head
         val currN = kv._1
-        if (currN > n) if (prevI.isEmpty) Some(0) else prevI.map(_ + 1)
+        if (currN > n) 
+          if (prevI.isEmpty) Some(0) 
+          else prevI.map { x => 
+            if (Primes.isPrime(x)) x else x + 1
+          }
         else loop(aPpiMap.tail, Some(kv._2))
       }
 		
