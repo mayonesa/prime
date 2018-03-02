@@ -6,16 +6,17 @@ import org.apache.commons.math3.primes.Primes
 import java.util.concurrent.Executors.newSingleThreadExecutor
 
 object Prime {
-  private val lock = AnyRef
-  private val priorPrimes = PriorPrimes(lock)
-  implicit private val ec = ExecutionContext.fromExecutor(newSingleThreadExecutor)
+  private val priorPrimes = new PriorPrimes
+  private val sec = ExecutionContext.fromExecutor(newSingleThreadExecutor)
 	
   def isPrime(n: Int): Boolean = Primes.isPrime(n)
 		
-  def getPriorPrimes(n: Int): Seq[Int] = lock.synchronized {
+  def getPriorPrimes(n: Int): Seq[Int] = priorPrimes.synchronized {
     if (priorPrimes.contains(n)) priorPrimes(n)
     else {
-      Future(priorPrimes += n)
+      Future {
+        priorPrimes.synchronized(priorPrimes += n)
+      }(sec)
       Seq.empty[Int]
     }
   }

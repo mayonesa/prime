@@ -1,51 +1,39 @@
 package models
 
-import org.apache.commons.math3.primes.Primes
+import org.apache.commons.math3.primes.Primes.isPrime
 import annotation.tailrec
-import collection.SortedMap
+import PriorPrimes.found
 
-private[models] class PriorPrimes(lock: AnyRef) {
-  private var ppiMap = SortedMap.empty[Int, Int]
+private[models] class PriorPrimes {
+  private var ppiMap = Map.empty[Int, Int]
+  // TODO: consider Vector
   private var pps = Seq.empty[Int]
 	
   private[models] def apply(n: Int) = ppsTo(ppiMap(n))
 	
   private[models] def contains(n: Int) = ppiMap.contains(n)
 	
-  private[models] def += (n: Int) = lock.synchronized {
-
-    @tailrec
-    def loop(aPpiMap: SortedMap[Int, Int], prevI: Option[Int]): Option[Int] =
-      if (aPpiMap.isEmpty) None
-      else {
-        val kv = aPpiMap.head
-        val currN = kv._1
-        if (currN > n) 
-          if (prevI.isEmpty) Some(pps.indexOf(n) - 1) 
-          else prevI.map { x => 
-            if (Primes.isPrime(x)) x else x + 1
-          }
-        else loop(aPpiMap.tail, Some(kv._2))
-      }
-		
+  private[models] def += (n: Int) =		
     if (n < 3) Seq.empty[Int] 
-    else loop(ppiMap, None) match {
-      case Some(i) => 
+    else {
+      val i = pps.indexWhere(_ >= n) - 1
+      if (found(i)) {
         ppiMap = ppiMap + (n -> i)
         ppsTo(i)
-      case _ => 
+      } else { 
         val start = if (pps.isEmpty) 2 else (pps.last + 1)
-        (start until n).filter(Primes.isPrime(_)).foreach { prime =>
+        // TODO: consider withFilter
+        (start until n).filter(isPrime).foreach { prime =>
           pps = pps :+ prime
         }
         ppiMap = ppiMap + (n -> (pps.size - 1))
         pps
+			}
     }
-  }
 	
   private def ppsTo(i: Int) = pps.slice(0, i + 1)
 }
 
-private[models] object PriorPrimes {
-  private[models] def apply(lock: AnyRef): PriorPrimes = new PriorPrimes(lock)
-}
+private object PriorPrimes {
+  private def found(i: Int) = i != -2
+} 

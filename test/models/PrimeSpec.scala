@@ -97,6 +97,9 @@ class PrimeSpec extends PlaySpec {
     "for 19 be empty at first" in {
       getPriorPrimes(19) mustBe empty
     }
+    "for 19 be [2, 3, 5, 7, 11, 13, 17] after the first time" in {
+      getPriorPrimes(19) mustBe List(2, 3, 5, 7, 11, 13, 17)
+    } 
    "for computationally-intensive be empty at first" in {
       getPriorPrimes(1000) mustBe empty
     }
