@@ -28,4 +28,4 @@ prime> sbt test
 3. service URL: localhost:9000/primes/5 (5 is variable)
 
 
-**Notes**: I can provide binaries w/ launcher script if preferred.
+* I can provide binaries w/ launcher script if preferred.
