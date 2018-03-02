@@ -28,7 +28,7 @@ private[models] class PriorPrimes {
         }
         ppiMap = ppiMap + (n -> (pps.size - 1))
         pps
-			}
+      }
     }
 	
   private def ppsTo(i: Int) = pps.slice(0, i + 1)
