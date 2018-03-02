@@ -21,11 +21,14 @@ GET: /prime/8
 
 ***To Test***: 
 
+```
 prime> sbt test
-
+```
 
 ***To Run***:
 
-1. prime> sbt stage
-2. prime> target/universal/stage/bin/prime
-3. service URL: localhost:9000/primes/5 (5 is variable)
+```
+prime> sbt stage
+prime> target/universal/stage/bin/prime
+```
+service URL: localhost:9000/primes/5 (5 is variable)
