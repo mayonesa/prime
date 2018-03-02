@@ -5,19 +5,19 @@ import annotation.tailrec
 import PriorPrimes._
 
 private[models] class PriorPrimes {
-  private var ppiMap = Map.empty[Int, Index]
+  private var requestedNs = Map.empty[Int, Index]
   private var pps = Vector.empty[Int]
 	
-  private[models] def apply(n: Int) = ppsTo(ppiMap(n))
+  private[models] def apply(n: Int) = ppsTo(requestedNs(n))
 	
-  private[models] def contains(n: Int) = ppiMap.contains(n)
+  private[models] def contains(n: Int) = requestedNs.contains(n)
 	
   private[models] def += (n: Int) =		
     if (n < 3) Vector.empty[Int] 
     else {
       val i = pps.indexWhere(_ >= n) - 1
       if (found(i)) {
-        ppiMap = ppiMap + (n -> i)
+        requestedNs = requestedNs + (n -> i)
         ppsTo(i)
       } else { 
         val start = if (pps.isEmpty) 2 else (pps.last + 1)
@@ -25,7 +25,7 @@ private[models] class PriorPrimes {
           aN <- start until n
           if isPrime(aN)
         } pps = pps :+ aN
-        ppiMap = ppiMap + (n -> (pps.size - 1))
+        requestedNs = requestedNs + (n -> (pps.size - 1))
         pps
       }
     }
