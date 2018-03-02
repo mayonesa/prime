@@ -11,7 +11,7 @@ object Prime {
 	
   def isPrime(n: Int): Boolean = Primes.isPrime(n)
 		
-  def getPriorPrimes(n: Int): Seq[Int] = priorPrimes.synchronized {
+  def getPriorPrimes(n: Int): Vector[Int] = priorPrimes.synchronized {
     if (priorPrimes.contains(n)) priorPrimes(n)
     else {
       Future {

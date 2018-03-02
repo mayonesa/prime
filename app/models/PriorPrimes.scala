@@ -22,9 +22,9 @@ private[models] class PriorPrimes {
       } else { 
         val start = if (pps.isEmpty) 2 else (pps.last + 1)
         for {
-          nCurr <- start until n
-          if isPrime(nCurr)
-        } pps = pps :+ nCurr
+          aN <- start until n
+          if isPrime(aN)
+        } pps = pps :+ aN
         ppiMap = ppiMap + (n -> (pps.size - 1))
         pps
       }
