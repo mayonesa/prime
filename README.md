@@ -22,5 +22,6 @@ prime> sbt test
 
 **To Run**:
 
-1. prime> sbt start
-2. service URL: localhost:9000/primes/5 (5 is variable)
+1. prime> sbt stage
+2. prime> target/universal/stage/bin/prime
+3. service URL: localhost:9000/primes/5 (5 is variable)
