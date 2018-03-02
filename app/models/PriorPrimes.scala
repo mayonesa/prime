@@ -6,15 +6,14 @@ import PriorPrimes._
 
 private[models] class PriorPrimes {
   private var ppiMap = Map.empty[Int, Index]
-  // TODO: consider Vector
-  private var pps = Seq.empty[Int]
+  private var pps = Vector.empty[Int]
 	
   private[models] def apply(n: Int) = ppsTo(ppiMap(n))
 	
   private[models] def contains(n: Int) = ppiMap.contains(n)
 	
   private[models] def += (n: Int) =		
-    if (n < 3) Seq.empty[Int] 
+    if (n < 3) Vector.empty[Int] 
     else {
       val i = pps.indexWhere(_ >= n) - 1
       if (found(i)) {
@@ -22,10 +21,10 @@ private[models] class PriorPrimes {
         ppsTo(i)
       } else { 
         val start = if (pps.isEmpty) 2 else (pps.last + 1)
-        // TODO: consider withFilter
-        (start until n).filter(isPrime).foreach { prime =>
-          pps = pps :+ prime
-        }
+        for {
+          nCurr <- start until n
+          if isPrime(nCurr)
+        } pps = pps :+ nCurr
         ppiMap = ppiMap + (n -> (pps.size - 1))
         pps
       }

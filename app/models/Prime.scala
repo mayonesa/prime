@@ -17,7 +17,7 @@ object Prime {
       Future {
         priorPrimes.synchronized(priorPrimes += n)
       }(sec)
-      Seq.empty[Int]
+      Vector.empty[Int]
     }
   }
 }
