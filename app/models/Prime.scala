@@ -3,10 +3,12 @@ package models
 import concurrent.{ ExecutionContext, Future }
 import javax.inject.Inject
 import org.apache.commons.math3.primes.Primes
+import java.util.concurrent.Executors.newFixedThreadPool
 
-class Prime @Inject() (implicit ec: ExecutionContext) {
+object Prime {
   private val lock = AnyRef
   private val priorPrimes = PriorPrimes(lock)
+  implicit private val ec = ExecutionContext.fromExecutor(newFixedThreadPool(1))
 	
   def isPrime(n: Int): Boolean = Primes.isPrime(n)
 		
