@@ -15,6 +15,9 @@ GET: /prime/8
 GET: /prime/8
 -> { isPrime: false, primes: [2,3,5,7] }
 
+## Ops
+
+[SBT](https://www.scala-sbt.org/) is required for below instructions but binaries w/ launcher script can be sent if preferred.
 
 ***To Test***: 
 
@@ -26,6 +29,3 @@ prime> sbt test
 1. prime> sbt stage
 2. prime> target/universal/stage/bin/prime
 3. service URL: localhost:9000/primes/5 (5 is variable)
-
-
-* I can provide binaries w/ launcher script if preferred.
