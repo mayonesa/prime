@@ -2,10 +2,10 @@ package models
 
 import org.apache.commons.math3.primes.Primes.isPrime
 import annotation.tailrec
-import PriorPrimes.found
+import PriorPrimes._
 
 private[models] class PriorPrimes {
-  private var ppiMap = Map.empty[Int, Int]
+  private var ppiMap = Map.empty[Int, Index]
   // TODO: consider Vector
   private var pps = Seq.empty[Int]
 	
@@ -31,9 +31,10 @@ private[models] class PriorPrimes {
       }
     }
 	
-  private def ppsTo(i: Int) = pps.slice(0, i + 1)
+  private def ppsTo(i: Index) = pps.slice(0, i + 1)
 }
 
 private object PriorPrimes {
-  private def found(i: Int) = i != -2
+  private type Index = Int
+  private def found(i: Index) = i != -2
 } 
