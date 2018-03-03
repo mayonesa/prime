@@ -4,7 +4,9 @@ import org.apache.commons.math3.primes.Primes.isPrime
 import annotation.tailrec
 import PriorPrimes._
 
-private[models] class PriorPrimes {
+private[models] object PriorPrimes {
+  private type Index = Int
+
   private var requestedNs = Map.empty[Int, Index]
   private var pps = Vector.empty[Int]
 	
@@ -31,9 +33,6 @@ private[models] class PriorPrimes {
     }
 	
   private def ppsTo(i: Index) = pps.slice(0, i + 1)
-}
 
-private object PriorPrimes {
-  private type Index = Int
   private def found(i: Index) = i != -2
 } 
