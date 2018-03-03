@@ -1,21 +1,25 @@
 package models
 
 import org.apache.commons.math3.primes.Primes.isPrime
-import annotation.tailrec
-import PriorPrimes.Index
+import PriorPrimes.{ Index, FirstPrime }
 
 private[models] class PriorPrimes {
+  /* keeps track of requested n's in order to determine which are first-timers or not */
   private var requestedNs = Map.empty[Int, Index]
-  private var nToPpiMap = Map.empty[Int, Index]
-  private var pps = Vector.empty[Int]
+  
+  /* mappings from all n's requested (and in between) to prior primes cache indices.
+   * prevents need for linear search for future requests */
+  private var nToPpiMap = Map.empty[Int, Index] 
+
+  /* cache of earlier prior primes (prevents recalculation) */
+  private var pps = Vector.empty[Int] 
 	
   private[models] def get(n: Int) = requestedNs.get(n).map(ppsTo)
 	
   private[models] def += (n: Int) =		
-    if (n < 3) Vector.empty[Int] 
-    else nToPpiMap.get(n) match {
+    if (n > FirstPrime) nToPpiMap.get(n) match {
       case None =>
-        val start = if (pps.isEmpty) 2 else (pps.last + 1)
+        val start = if (pps.isEmpty) FirstPrime else (pps.last + 1)
         (start until n).foreach { aN =>
           nToPpiMap = nToPpiMap + (aN -> pps.size)
           if (isPrime(aN)) pps = pps :+ aN
@@ -26,12 +30,13 @@ private[models] class PriorPrimes {
         val j = i - 1
         requestedNs = requestedNs + (n -> j)
         ppsTo(j)
-    }
+    } else Vector.empty[Int]
 	
   private def ppsTo(i: Index) = pps.slice(0, i + 1)
 }
 
 private[models] object PriorPrimes {
   private type Index = Int
+  private[models] val FirstPrime = 2
   private[models] def apply() = new PriorPrimes
 }
