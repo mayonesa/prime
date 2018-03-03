@@ -15,7 +15,7 @@ class PrimesController @Inject() (cc: ControllerComponents)(implicit ec: Executi
       for {
         p <- Future(isPrime(n))
         pps <- priorPrimesFut
-      } yield	Ok(Json.obj("isPrime" -> p, "primes" -> pps))
+      } yield Ok(Json.obj("isPrime" -> p, "primes" -> pps))
     } catch {
       case _: NumberFormatException => 
         Future(BadRequest(Json.obj("errors" -> Json.arr(s"input value, $nStr, must be an integer instead."))))
