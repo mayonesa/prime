@@ -17,7 +17,7 @@ private[models] class PriorPrimes {
   private[models] def get(n: Int) = requestedNs.get(n).map(ppsTo)
 	
   private[models] def += (n: Int) =		
-    if (n < 0) Vector.empty[Int]
+    if (n < 3) Vector.empty[Int]
     else if (n < nToPpsIndices.size) {        
       val j = nToPpsIndices(n) - 1
       requestedNs = requestedNs + (n -> j)
