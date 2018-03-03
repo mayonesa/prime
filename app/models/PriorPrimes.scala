@@ -8,6 +8,7 @@ private[models] object PriorPrimes {
   private type Index = Int
 
   private var requestedNs = Map.empty[Int, Index]
+  private var nToPpiMap = Map.empty[Int, Index]
   private var pps = Vector.empty[Int]
 	
   private[models] def apply(n: Int) = ppsTo(requestedNs(n))
@@ -16,23 +17,19 @@ private[models] object PriorPrimes {
 	
   private[models] def += (n: Int) =		
     if (n < 3) Vector.empty[Int] 
-    else {
-      val i = pps.indexWhere(_ >= n) - 1
-      if (found(i)) {
-        requestedNs = requestedNs + (n -> i)
-        ppsTo(i)
-      } else { 
-        val start = if (pps.isEmpty) 2 else (pps.last + 1)
-        for {
-          aN <- start until n
-          if isPrime(aN)
-        } pps = pps :+ aN
-        requestedNs = requestedNs + (n -> (pps.size - 1))
-        pps
+    else nToPpiMap.get(n).fold {
+      val start = if (pps.isEmpty) 2 else (pps.last + 1)
+      (start until n).foreach { aN =>
+        nToPpiMap = nToPpiMap + (aN -> pps.size)
+        if (isPrime(aN)) pps = pps :+ aN
       }
-    }
+      requestedNs = requestedNs + (n -> (pps.size - 1))
+      pps
+    } { i =>
+      val j = i - 1
+      requestedNs = requestedNs + (n -> j)
+      ppsTo(j)
+    } 
 	
   private def ppsTo(i: Index) = pps.slice(0, i + 1)
-
-  private def found(i: Index) = i != -2
-} 
+}
