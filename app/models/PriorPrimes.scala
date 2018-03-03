@@ -17,20 +17,21 @@ private[models] class PriorPrimes {
   private[models] def get(n: Int) = requestedNs.get(n).map(ppsTo)
 	
   private[models] def += (n: Int) =		
-    if (n < 3) Vector.empty[Int]
-    else if (n < nToPpsIndices.size) {        
-      val j = nToPpsIndices(n) - 1
-      requestedNs = requestedNs + (n -> j)
-      ppsTo(j)
-    } else {
-      val start = if (pps.isEmpty) 0 else (pps.last + 1)
-      (start until n).foreach { aN =>
-        nToPpsIndices = nToPpsIndices :+ pps.size
-        if (isPrime(aN)) pps = pps :+ aN
+    if (n > 2) 
+      if (n >= nToPpsIndices.size) {        
+        val start = if (pps.isEmpty) 0 else (pps.last + 1)
+        (start until n).foreach { aN =>
+          nToPpsIndices = nToPpsIndices :+ pps.size
+          if (isPrime(aN)) pps = pps :+ aN
+        }
+        requestedNs = requestedNs + (n -> (pps.size - 1))
+        pps
+      } else {
+        val j = nToPpsIndices(n) - 1
+        requestedNs = requestedNs + (n -> j)
+        ppsTo(j)
       }
-      requestedNs = requestedNs + (n -> (pps.size - 1))
-      pps
-    }
+    } else Vector.empty[Int]
 	
   private def ppsTo(i: Index) = pps.slice(0, i + 1)
 }
