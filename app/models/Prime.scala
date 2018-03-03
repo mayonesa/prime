@@ -7,14 +7,15 @@ import java.util.concurrent.Executors.newSingleThreadExecutor
 
 object Prime {
   private val sec = ExecutionContext.fromExecutor(newSingleThreadExecutor)
+  private val lock = AnyRef
 	
   def isPrime(n: Int): Boolean = Primes.isPrime(n)
 		
-  def getPriorPrimes(n: Int): Vector[Int] = PriorPrimes.synchronized {
+  def getPriorPrimes(n: Int): Vector[Int] = lock.synchronized {
     if (PriorPrimes.contains(n)) PriorPrimes(n)
     else {
       Future {
-        PriorPrimes.synchronized(PriorPrimes += n)
+        lock.synchronized(PriorPrimes += n)
       }(sec)
       Vector.empty[Int]
     }
