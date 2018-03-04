@@ -1,15 +1,16 @@
 package models
 
 import org.apache.commons.math3.primes.Primes.isPrime
-import PriorPrimes.{ Index, FirstPrime }
+import PriorPrimes.{ Index, FirstPrime, NoPrevPrimeIdx }
 
 private[models] class PriorPrimes {
   /* keeps track of requested n's in order to determine which are first-timers or not */
   private var requestedNs = Set.empty[Int]
   
   /* mappings from all n's requested (and in between) to previous prime indices.
+   * the indices are the n's and the values are the `pps` indices.
    * prevents need for linear search for future new requests */
-  private var nToPrevPrimeIdxs = Vector.fill(3)(-1)
+  private var nToPrevPrimeIdxs = Vector.fill(3)(NoPrevPrimeIdx)
 
   /* numerically-ordered cache of earlier prior primes (prevents recalculation) */
   private var pps = Vector(FirstPrime)
@@ -38,5 +39,6 @@ private[models] class PriorPrimes {
 private[models] object PriorPrimes {
   private type Index = Int
   private val FirstPrime = 2
+  private val NoPrevPrimeIdx = -1
   private[models] def apply() = new PriorPrimes
 }
