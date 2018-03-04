@@ -22,15 +22,14 @@ private[models] class PriorPrimes {
   private[models] def += (n: Int) =
     // only update if n has actual prior primes
     if (n > FirstPrime) {
+      requestedNs = requestedNs + n
       val nNs = nToPrevPrimeIdxs.size
       // only update if the exhaustive n's are not already stored
-      if (n >= nNs) {
+      if (n >= nNs)
         (nNs to n).foreach { aN =>
           nToPrevPrimeIdxs = nToPrevPrimeIdxs :+ (pps.size - 1)
           if (isPrime(aN)) pps = pps :+ aN
         }
-      }
-      requestedNs = requestedNs + n
     }
 	
   private def ppsTo(i: Index) = pps.slice(0, i + 1)
