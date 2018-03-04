@@ -13,12 +13,12 @@ object Prime {
 		
   def getPriorPrimes(n: Int): Vector[Int] = priorPrimes.synchronized {
     priorPrimes.get(n) match {
+      case Some(pps) => pps
       case None => 
         Future(priorPrimes.synchronized {
           priorPrimes += n
         })(sec)
         Vector.empty[Int]
-      case Some(pps) => pps
     }
   }
 }

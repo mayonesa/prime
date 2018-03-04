@@ -4,13 +4,13 @@ import javax.inject.Inject
 import play.api.mvc._
 import models.Prime._
 import play.api.libs.json.Json
-import java.lang.Integer.valueOf 
+import java.lang.Integer
 import concurrent.{ ExecutionContext, Future }
 	
 class PrimesController @Inject() (cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
   def primes(nStr: String) = Action.async { 
     try {
-      val n = valueOf(nStr)
+      val n = Integer.valueOf(nStr)
       val priorPrimesFut = Future(getPriorPrimes(n))
       for {
         p <- Future(isPrime(n))

@@ -20,11 +20,12 @@ private[models] class PriorPrimes {
     else None
 	
   private[models] def += (n: Int) =
-    // only update if n has actual prior primes
+    // update if and only if (iff) n has actual prior primes
     if (n > FirstPrime) {
       requestedNs = requestedNs + n
       val nNs = nToPrevPrimeIdxs.size
-      // only update if the exhaustive n's are not already stored
+
+      // update iff the exhaustive n's are not already stored
       if (n >= nNs)
         (nNs to n).foreach { aN =>
           nToPrevPrimeIdxs = nToPrevPrimeIdxs :+ (pps.size - 1)
