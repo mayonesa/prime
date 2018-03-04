@@ -26,10 +26,9 @@ private[models] class PriorPrimes {
           nToPrevPrimeIdxs = nToPrevPrimeIdxs :+ (pps.size - 1)
           if (isPrime(aN)) pps = pps :+ aN
         }
-        pps
-      } else ppsTo(nToPrevPrimeIdxs(n))
+      }
       requestedNs = requestedNs + n
-    } else Vector.empty[Int]
+    }
 	
   private def ppsTo(i: Index) = pps.slice(0, i + 1)
 }
