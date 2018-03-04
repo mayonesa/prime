@@ -1,36 +1,34 @@
 package models
 
 import org.apache.commons.math3.primes.Primes.isPrime
-import PriorPrimes.Index
+import PriorPrimes.{ Index, FirstPrime }
 
 private[models] class PriorPrimes {
   /* keeps track of requested n's in order to determine which are first-timers or not */
-  private var requestedNs = Map.empty[Int, Index]
+  private var requestedNs = Set.empty[Int]
   
-  /* mappings from all n's requested (and in between) to prior primes indices.
+  /* mappings from all n's requested (and in between) to previous prime indices.
    * prevents need for linear search for future new requests */
-  private var nToPpsIndices = Vector.empty[Index] 
+  private var nToPrevPrimeIdxs = Vector.fill(3)(-1)
 
-  /* cache of earlier prior primes (prevents recalculation) */
-  private var pps = Vector.empty[Int] 
+  /* numerically-ordered cache of earlier prior primes (prevents recalculation) */
+  private var pps = Vector(FirstPrime)
 	
-  private[models] def get(n: Int) = requestedNs.get(n).map(ppsTo)
+  private[models] def get(n: Int) = 
+    if (requestedNs(n)) Some(ppsTo(nToPrevPrimeIdxs(n))) 
+    else None
 	
-  private[models] def += (n: Int) =		
-    if (n > 2) 
-      if (n >= nToPpsIndices.size) {        
-        val start = if (pps.isEmpty) 0 else (pps.last + 1)
-        (start until n).foreach { aN =>
-          nToPpsIndices = nToPpsIndices :+ pps.size
+  private[models] def += (n: Int) =
+    if (n > FirstPrime) {
+      val nNs = nToPrevPrimeIdxs.size
+      if (n >= nNs) {        
+        (nNs to n).foreach { aN =>
+          nToPrevPrimeIdxs = nToPrevPrimeIdxs :+ (pps.size - 1)
           if (isPrime(aN)) pps = pps :+ aN
         }
-        requestedNs = requestedNs + (n -> (pps.size - 1))
         pps
-      } else {
-        val j = nToPpsIndices(n) - 1
-        requestedNs = requestedNs + (n -> j)
-        ppsTo(j)
-      }
+      } else ppsTo(nToPrevPrimeIdxs(n))
+      requestedNs = requestedNs + n
     } else Vector.empty[Int]
 	
   private def ppsTo(i: Index) = pps.slice(0, i + 1)
@@ -38,5 +36,6 @@ private[models] class PriorPrimes {
 
 private[models] object PriorPrimes {
   private type Index = Int
+  private val FirstPrime = 2
   private[models] def apply() = new PriorPrimes
 }
