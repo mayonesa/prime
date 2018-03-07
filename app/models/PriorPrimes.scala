@@ -19,7 +19,7 @@ private[models] object PriorPrimes {
 
   /** @param requestedNs: keeps track of requested n's in order to determine which are first-timers or not
    *  @param nToPrevPrimeIdxs: mappings from all n's requested (and in between) to previous prime indices.
-   *.                          the indices are the n's and the values are the `pps` indices.
+   *                           the indices are the n's and the values are the `pps` indices.
    *                           prevents need for linear search for future new requests
    *  @param pps: numerically-ordered cache of earlier prior primes (prevents recalculation)
    */
