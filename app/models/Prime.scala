@@ -7,7 +7,7 @@ import java.util.concurrent.Executors.newSingleThreadExecutor
 
 object Prime {
   private val sec = ExecutionContext.fromExecutor(newSingleThreadExecutor)
-  private val priorPrimes = PriorPrimes()
+  private var priorPrimes = PriorPrimes.empty
 	
   def isPrime(n: Int): Boolean = Primes.isPrime(n)
 		
@@ -16,7 +16,7 @@ object Prime {
       case Some(pps) => pps
       case None => 
         Future(priorPrimes.synchronized {
-          priorPrimes += n
+          priorPrimes = priorPrimes + n
         })(sec)
         Vector.empty[Int]
     }
