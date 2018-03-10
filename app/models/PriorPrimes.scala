@@ -32,7 +32,8 @@ private[models] object PriorPrimes {
       if (n > FirstPrime) {
         val (newNToPrevPrimeIds, newPps) = (nToPrevPrimeIdxs.size to n).foldLeft((nToPrevPrimeIdxs, pps)) { 
           case ((aNToPrevPrimeIdxs, aPps), aN) =>
-            (aNToPrevPrimeIdxs :+ (aPps.size - 1), if (isPrime(aN)) aPps :+ aN else aPps)
+            (aNToPrevPrimeIdxs :+ (aPps.size - 1),
+             if (isPrime(aN)) aPps :+ aN else aPps)
         }
         new PriorPrimesImpl(requestedNs + n, newNToPrevPrimeIds, newPps)
       } else this
