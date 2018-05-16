@@ -29,15 +29,14 @@ private[models] object PriorPrimes {
       else None
 
     private[models] def + (n: Int) =
-      if (n > FirstPrime)
-        (nToPrevPrimeIdxs.size to n).foldLeft((nToPrevPrimeIdxs, pps)) { 
+      if (n > FirstPrime) {
+        var (newNToPrevPrimeIds, newPps) = (nToPrevPrimeIdxs.size to n).foldLeft((nToPrevPrimeIdxs, pps)) { 
           case ((aNToPrevPrimeIdxs, aPps), aN) =>
             (aNToPrevPrimeIdxs :+ (aPps.size - 1),
              if (isPrime(aN)) aPps :+ aN else aPps)
-        } match {
-          case (newNToPrevPrimeIds, newPps) => new PriorPrimesImpl(requestedNs + n, newNToPrevPrimeIds, newPps)
         }
-      else this
+        new PriorPrimesImpl(requestedNs + n, newNToPrevPrimeIds, newPps)
+      } else this
 
     private def ppsTo(i: Index) = pps.slice(0, i + 1)
   }
